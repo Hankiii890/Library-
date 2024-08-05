@@ -68,14 +68,66 @@ class Reader:
             return f"Пользователь не брал {publication.__title}"
         
             
-class Librari:
-    """Класс библиотека, который имеет методы для добавления, удаления публикаций и читателей,
-    а так же используем композицию для испольхования экземпляров других классов
+class Library:
+    """
+    Класс для хранения публикаций и читателей
     """
     def __init__(self):
         self.publications: Dict[int, Publication] = {}
         self.readers: List[Reader] = []
 
-    
 
+    def add_publications(self, publication: Publication):
+        """
+        Функция добавления публикаций
+        """
+        self.publications[publication.id()] = publication
+        return f"Добавлена публикация: {publication.__title()}"
+
+    
+    def remove_publications(self, publication_id: int):
+        """
+        Функция удаления публикаций
+        """
+        if publication_id in self.publications:
+            del self.publications[publication_id]
+            return f"Публикация с таким-то {publication_id} удалена!"
+        else:
+            return f"Публикация с {publication_id} не найдена!"
+        
+    
+    def register_readers(self, reader: Reader):
+        """
+        Функция регистрации читателей
+        """
+        self.readers.append(reader)
+        return f"Читатель {self.reader} добавлен!" 
+
+
+    def unregister_readers(self, reader: Reader):
+        """
+        Функция удаления читателей
+        """
+        if reader in self.readers:
+            self.readers.remove(reader)
+            return f"Читатель {reader} удалён"
+        else:
+            return f"Читатель не найдет"
+
+
+    def lst_piblication():
+        """
+        Список зарегистрированных публикаций
+        """
+        pass 
+
+
+lib = Library()
+
+reader = Reader("Kirill")
+
+book_1 = Books(1, "Hibbit", "Tolkien", 1937)
+book_2 = Books(2, "Grokking algorithms", "Aditya Bhargava", 2017)
+
+lib.add_publications(book_1, book_2)
 
