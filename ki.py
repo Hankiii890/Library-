@@ -112,14 +112,26 @@ class Library:
             self.readers.remove(reader)
             return f"Читатель {reader} удалён"
         else:
-            return f"Читатель не найдет"
+            return f"Читатель {reader} не найдет"
 
 
-    def lst_piblication():
+    def check_piblication_availability(self, publication_id: int) -> bool:
         """
-        Список зарегистрированных публикаций
+        Функция доступности публикации по её идентификатору 
         """
-        pass 
+        publication = self.publications.get(publication_id)
+        if publication:     # Если публикация найдена... Выводит статус доступности
+            return publication.aviable
+        else:
+            return False 
+        
+
+    def lst_publications(self):
+        for publication in self.publications.values():
+            return publication
+        else:
+            return f"Список публикаций пуст!"
+        
 
 
 lib = Library()
