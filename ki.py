@@ -8,7 +8,7 @@ class Publication(ABC):
         self._title = title  # Название публикации
         self._author = author    # Имя автора публикации
         self._year = year    # Год издания публикации
-        self.aviable = True     # Статус доступности
+        self.available = True     # Статус доступности
 
     @property
     def title(self):
@@ -58,14 +58,15 @@ class Reader:
         self.borrowed_publications: List[Publication] = [] # Список всех публикация, которые взял читатель
 
 
-    def borrow(self, publication:Publication):
+    def borrow(self, *publications:Publication):
         "Функция взятия публикаций юзерами"
-        if publication.aviable:
-            publication.aviable = False # Указываем, что публикация больше не доступна для взятия другими пользователями 
-            self.borrowed_publications.append(publication)
-            return f"Пользователь {self.name} взял публикацию {publication.title}"
-        else:
-            return f"Публикация {publication.title} уже используется!"
+        for publication in publications:
+            if publication.available and publication not in self.borrowed_publications:
+                publication.available = False # Указываем, что публикация больше не доступна для взятия другими пользователями
+                self.borrowed_publications.append(publication)
+                return f"Пользователь {self.name} взял публикацию {publication.title}"
+            else:
+                return f"Публикация {publication.title} уже используется!"
 
 
     def return_publication(self, publication: Publication):
@@ -73,7 +74,7 @@ class Reader:
         Функция проверки заимствованных публикаций
         """
         if publication in self.borrowed_publications:
-            publication.aviable = True 
+            publication.available = True
             self.borrowed_publications.remove(publication)
             return f"Пользователь {self.name} вернул публикацию {publication.title}"
         else:
@@ -134,7 +135,7 @@ class Library:
         """
         publication = self.publications.get(publication_id)
         if publication:     # Если публикация найдена... Выводит статус доступности
-            return publication.aviable
+            return publication.available
         else:
             return False 
         
@@ -153,6 +154,10 @@ book_1 = Books(1, "Hobbit", "Tolkien", 1937)
 book_2 = Books(2, "Grokking algorithms", "Aditya Bhargava", 2017)
 
 lib.add_publications(book_1, book_2)
+
+print(reader.borrow(book_1, book_2))
+
+
 
 
 
