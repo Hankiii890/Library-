@@ -26,7 +26,7 @@ class Publication(ABC):
     @abstractmethod
     def __str__(self) -> str:
         """
-        Возвращаем общее предствление публикации;
+        Возвращаем общее представление публикации;
         Метод будет реализован в дочерних классах (тут базовая реализация) 
         """
         return f"Публикация {self.title} Автора {self.author} Выпущена: {self.year}"
@@ -89,12 +89,13 @@ class Library:
         self.readers: List[Reader] = []
 
 
-    def add_publications(self, publication: Publication):
+    def add_publications(self, *publications: Publication):
         """
         Функция добавления публикаций
         """
-        self.publications[publication.id] = publication
-        return f"Добавлена публикация: {publication.title}"
+        for publication in publications:
+            self.publications[publication.id] = publication
+            print(f'Публикация {publication.title} добавлена!')
 
     
     def remove_publications(self, publication_id: int):
@@ -127,7 +128,7 @@ class Library:
             return f"Читатель {reader} не найдет"
 
 
-    def check_piblication_availability(self, publication_id: int) -> bool:
+    def check_publication_availability(self, publication_id: int) -> bool:
         """
         Функция доступности публикации по её идентификатору 
         """
@@ -139,22 +140,21 @@ class Library:
         
 
     def lst_publications(self):
+        publication_lst = []
         for publication in self.publications.values():
-            return publication
-        else:
-            return f"Список публикаций пуст!"
-        
-
+            publication_lst.append(str(publication))
+        return "\n".join(publication_lst)
 
 lib = Library()
 
 reader = Reader("Kirill")
 
-book_1 = Books(1, "Hibbit", "Tolkien", 1937)
+book_1 = Books(1, "Hobbit", "Tolkien", 1937)
 book_2 = Books(2, "Grokking algorithms", "Aditya Bhargava", 2017)
 
-lib.add_publications(book_1)
-lib.add_publications(book_2)
+lib.add_publications(book_1, book_2)
 
-print(lib.lst_publications())
+
+
+
 
