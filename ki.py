@@ -115,7 +115,7 @@ class Library:
         Функция регистрации читателей
         """
         self.readers.append(reader)
-        return f"Читатель {reader} добавлен!"
+        print(f"Читатель {reader} добавлен!")
 
 
     def unregister_readers(self, reader: Reader):
@@ -124,7 +124,7 @@ class Library:
         """
         if reader in self.readers:
             self.readers.remove(reader)
-            return f"Читатель {reader} удалён"
+            print(f"Читатель {reader} удалён")
         else:
             return f"Читатель {reader} не найдет"
 
@@ -155,7 +155,7 @@ book_2 = Books(2, "Grokking algorithms", "Aditya Bhargava", 2017)
 
 lib.add_publications(book_1, book_2)
 
-print(reader.borrow(book_1, book_2))
+reader.borrow(book_1, book_2)
 
 
 
